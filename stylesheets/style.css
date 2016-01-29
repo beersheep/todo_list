@@ -96,7 +96,7 @@ h1 .item_count {
   margin-top: 2.5px;
 }
 
-main .add_todo {
+main #add_todo {
   background: url("../images/rectangle.png") no-repeat 12px 1.5px;
   padding: 0 0 20px 40px;
   color: #148fd5;
@@ -126,4 +126,11 @@ main a:hover {
   background: url("../images/trash_bin.png") no-repeat;
   width: 18px;
   height: 18px;
+}
+
+input {
+  border: none;
+  border-bottom: 1.5px solid #148fd5;
+  width: 26%;
+  height: 15px;
 }

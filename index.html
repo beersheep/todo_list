@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <title>Todo List</title>
     <link rel="stylesheet" href="stylesheets/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="javascripts/utilities.js"></script>
+    <script src="javascripts/framework.js"></script>
+    <script src="javascripts/handlebars-v3.0.0.js"></script>
   </head>
   <body>
     <div class="container">
@@ -35,14 +39,29 @@
       <main>
         <a href="#" id="menu_icon"></a>
         <h1>02/15 <div class="item_count selected">5</div></h1>
-        <ul>
-          <li class="add_todo"><a href="#">Add new TODO</a><a href=""></a></li>
-          <li><a href="#">item 1</a><a href="" class="delete_item"></a></li>
-          <li><a href="#">item 2</a><a href="" class="delete_item"></a></li>
-          <li class="finished"><a href="#">item 3</a><a href="" class="delete_item"></a></li>
+        <ul id="todo_items">
+          <li id="add_todo"><a href="#">Add new TODO</a><a href=""></a></li>
           <li class="finished"><a href="#">item 4</a><a href="" class="delete_item"></a></li>
         </ul>
       </main>
     </div>
+
+    <script id="todo" type="text/x-handlebars">
+      <a href="#">{{name}}</a><a href="#"></a>
+    </script>
+
+    <script id="add_todo_form" type="text/x-handlebars">
+      <form action="" method="post">
+        <fieldset>
+          <input type="text" name="todo_name" id="todo_name" placeholder="What's your plan?">
+        </fieldset>
+      </form>
+    </script>
+    
+    <script id="remove_todo_form" type="text/x-handlebars">
+      <a href="#">Add new TODO</a><a href=""></a>
+    </script>
+
+    <script src="javascripts/todo.js"></script>
  </body>
  </html> 
