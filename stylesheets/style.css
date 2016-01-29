@@ -2,8 +2,13 @@
 
 body {
   font: normal 16px Helvetica, sans-serif;
+  letter-spacing: 1px;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
 
 aside {
   float: left;
@@ -27,26 +32,27 @@ main {
 
 
 aside ul {
-  margin: 70px 0 70px 100px;
+  margin: 70px 35px 70px 100px;
   color: #fff;
 }
 
 aside li {
-  padding: 13px 0px 13px 45px;
+  padding: 5px 0px 13px 45px;
   
 }
 
 aside .all_todos {
-  background: url("../images/list_icon.png") no-repeat 5px 8px;
+  background: url("../images/list_icon.png") no-repeat 5px 0px;
 }
 
 aside li + li {
+  padding: 13px 0px 13px 45px;
   background: none;
   color: rgba(255, 255, 255, 0.5);
 }
 
 aside .completed {
-  background: url("../images/complete.png") no-repeat 5px 8px;
+  background: url("../images/complete.png") no-repeat 5px 0px;
 }
 
 .completed li + li {
@@ -61,15 +67,63 @@ aside .completed {
   border-radius: 10px;
   padding: 1px 6px;
   background-color: #6b7292;
-  margin-right: 35px;
+  box-sizing: border-box;
+}
+
+.selected {
+  color: #fff;
+  background-color: #148fd5;
 }
 
 /*** main ***/
 
 #menu_icon {
-  background: url("../images/menu_icon.png"), no-repeat 0 0;
+  color: #050505;
+  background: url("../images/menu_icon.png") no-repeat 0 0;
   height: 18px;
   width : 23px;
   display: block;
   margin: 20px 0 0 35px;
 } 
+
+main h1 {
+  padding: 33px;
+  font-size: 21px;
+  width: 100px;
+}
+
+h1 .item_count {
+  margin-top: 2.5px;
+}
+
+main .add_todo {
+  background: url("../images/rectangle.png") no-repeat 12px 1.5px;
+  padding: 0 0 20px 40px;
+  color: #148fd5;
+}
+
+main ul {
+  margin: 0 100px 0 20px;
+}
+
+
+main li + li {
+  padding: 20px 0 20px 40px;
+  border-top: 2px solid #f1f1f1;
+}
+
+.finished {
+  color: #b3b3b3;
+  text-decoration: line-through;
+}
+
+main a:hover {
+  color: #148fd5;
+}
+
+.delete_item { 
+  float: right;
+  background: url("../images/trash_bin.png") no-repeat;
+  width: 18px;
+  height: 18px;
+}
