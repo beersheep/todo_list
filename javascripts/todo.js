@@ -31,6 +31,18 @@ var App = {
     this.removeAddTodoForm();
 
   },
+  markDone: function(e) {
+    e.preventDefault();
+    var $this = $(e.target),
+        $li = $this.closest("li"),
+        idx = +$this.closest("li").attr("id"),
+        model = App.Todos.get(idx);
+
+    model.complete = !model.complete; 
+
+    $li.toggleClass("finished");
+
+  },
   bindEvent: function() {
     this.$add_todo.on("click", this.renderAddForm.bind(this));
     this.$main.on("submit", "form", this.addTodoItem.bind(this));
@@ -55,7 +67,10 @@ $("[type='text/x-handlebars']").each(function(){
 
 App.TodoView = new ViewConstructor({
   tag_name: "li", 
-  template: templates.todo
+  template: templates.todo,
+  events: {
+    "click .todo": App.markDone
+  }
 });
 
 App.init();

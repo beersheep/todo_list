@@ -41,13 +41,17 @@
         <h1>02/15 <div class="item_count selected">5</div></h1>
         <ul id="todo_items">
           <li id="add_todo"><a href="#">Add new TODO</a><a href=""></a></li>
-          <li class="finished"><a href="#">item 4</a><a href="" class="delete_item"></a></li>
+          <li class="finished">
+            <a href="#">item 4</a>
+            <a href="" class="delete_item"></a>
+          </li>
         </ul>
       </main>
     </div>
 
     <script id="todo" type="text/x-handlebars">
-      <a href="#">{{name}}</a><a href="#"></a>
+      <a href="#" class="todo">{{name}}</a>
+      <a href="#" class="delete_item"></a>
     </script>
 
     <script id="add_todo_form" type="text/x-handlebars">
