@@ -1,0 +1,75 @@
+@import url("reset.css");
+
+body {
+  font: normal 16px Helvetica, sans-serif;
+}
+
+
+aside {
+  float: left;
+  background-color: #464f77;
+  width: 335px;
+  height: 800px;
+  font-weight: 200;
+}
+
+.container {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+main {
+  float:right;
+  width: 865px;
+  height: 800px;
+}
+
+
+
+aside ul {
+  margin: 70px 0 70px 100px;
+  color: #fff;
+}
+
+aside li {
+  padding: 13px 0px 13px 45px;
+  
+}
+
+aside .all_todos {
+  background: url("../images/list_icon.png") no-repeat 5px 8px;
+}
+
+aside li + li {
+  background: none;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+aside .completed {
+  background: url("../images/complete.png") no-repeat 5px 8px;
+}
+
+.completed li + li {
+  text-decoration: line-through;
+}
+
+.item_count {
+  float: right;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  border-radius: 10px;
+  padding: 1px 6px;
+  background-color: #6b7292;
+  margin-right: 35px;
+}
+
+/*** main ***/
+
+#menu_icon {
+  background: url("../images/menu_icon.png"), no-repeat 0 0;
+  height: 18px;
+  width : 23px;
+  display: block;
+  margin: 20px 0 0 35px;
+} 
