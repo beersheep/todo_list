@@ -13,20 +13,7 @@
     <div class="container">
       <aside>
         <ul class="all_todos">
-          <li>
-            All Todos
-            <div class="item_count">
-              20
-            </div>
-          </li>
-          <li>
-            2/5
-            <div class="item_count">
-                6
-            </div>
-          </li>
-          <li>3/5</li>
-          <li></li>
+
         </ul>
 
         <ul class="completed">
@@ -40,22 +27,44 @@
         <a href="#" id="menu_icon"></a>
         <h1>02/15 <div class="item_count selected">5</div></h1>
         <ul id="todo_items">
-          <li id="add_todo"><a href="#">Add new TODO</a><a href=""></a></li>
-          <li class="finished">
-            <a href="#">item 4</a>
-            <a href="" class="delete_item"></a>
-          </li>
+          <li id="add_todo"><a href="#">Add new TODO</a><a href=""></a></li>      
         </ul>
       </main>
     </div>
 
+
+
     <script id="todo" type="text/x-handlebars">
       <a href="#" class="todo">{{name}}</a>
       <a href="#" class="delete_item"></a>
+        <div class="modal">
+          <form action="">
+            <dl>
+              <dt><label for="todo_name">Title</label></dt>
+              <dd><input type="text" id="todo_name" name="todo_name" value={{name}}></dd>
+              <dt><label for="due_day">Due Date</label></dt>
+              <dd>
+                <input type="number" id="due_day" name="due_day" placeholder="Day">
+                <div class="slash">/</div>
+                <input type="number" id="due_month" name="due_month" placeholder="Month">
+                <div class="slash">/</div>
+                <input type="number" id="due_year" name="due_year" placeholder="Year" value="2016">
+              </dd>
+              <dt><label for="description">Description</label></dt>
+              <dd><textarea name="descripion" id="description" placeholder="Description" value={{description}}></textarea></dd>
+              <dt></dt>
+              <dd>
+                <input type="submit" value="Save">
+                <button class="complete"><a href="#">Mark As Complete</a></button>
+              </dd>
+            </dl>
+          </form>
+        </div>
+        <div class="modal_layer"></div>
     </script>
 
     <script id="add_todo_form" type="text/x-handlebars">
-      <form action="" method="post">
+      <form action="" method="post" id="add_item">
         <fieldset>
           <input type="text" name="todo_name" id="todo_name" placeholder="What's your plan?">
         </fieldset>
@@ -64,6 +73,14 @@
     
     <script id="remove_todo_form" type="text/x-handlebars">
       <a href="#">Add new TODO</a><a href=""></a>
+    </script>
+
+    <script id="all_todo_count" type="text/x-handlebars">
+
+        <li>
+          All Todos
+          <div class="item_count">{{todo_count}}</div>
+        </li>
     </script>
 
     <script src="javascripts/todo.js"></script>

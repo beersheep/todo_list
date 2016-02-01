@@ -117,6 +117,10 @@ main li + li {
   text-decoration: line-through;
 }
 
+.finished a:hover {
+  color: inherit;
+}
+
 main a:hover {
   color: #148fd5;
 }
@@ -134,3 +138,117 @@ input {
   width: 26%;
   height: 15px;
 }
+
+/** modal **/
+
+.modal {
+  position: absolute;
+  display: none;
+  margin: 0 auto;
+  top: 100px;
+  height: 400px;
+  width: 580px;
+  background-color: #fff;
+  z-index:4;
+  box-sizing: border-box;
+
+}
+
+.modal_layer {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.modal form {
+  padding: 40px 40px 0 35px;
+  box-sizing: border-box;
+}
+
+.modal dd, dt {
+  display: inline-block;  
+  padding-bottom: 25px; 
+}
+
+
+.modal dt {
+  width: 110px;
+
+}
+
+.modal dd {
+  width: 389px;
+  }
+
+.modal dd:nth-child(3n) {
+  vertical-align: top;
+
+}
+
+.modal dl {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.modal input[type="text"], 
+input[type="number"],
+input[type="submit"], 
+textarea, button {
+  font-size: 16px;
+  padding: 6px;
+  resize: none;
+}
+
+.modal textarea {
+  border: 1px solid #b3b3b3;
+  height: 140px; 
+}
+
+.modal input {
+  border: 1px solid #b3b3b3;
+  height: 35px;
+  box-sizing: border-box;
+}
+
+.modal input#todo_name, 
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.modal input[type="number"] {
+  width: 115px;
+}
+
+.modal .slash {
+  display: inline-block;
+  height: 37px;
+  width: 11px;
+  text-align: center;
+}
+
+
+.modal input[type="submit"], 
+button {
+  height: 35px;
+  width: 185px;
+  color: #fff;
+  background-color: #148fd5;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+}
+
+.modal button {
+  margin-left: 13px;
+}
+
+
+
+
+
