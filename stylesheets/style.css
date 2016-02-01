@@ -139,6 +139,19 @@ input {
   height: 15px;
 }
 
+#one-click {
+  text-align: center;
+  margin: 30px 100px 0 20px;;
+}
+
+#one-click button + button {
+  margin-left: 30px;
+}
+
+#one-click a:hover {
+  color: inherit;
+}
+
 /** modal **/
 
 .modal {

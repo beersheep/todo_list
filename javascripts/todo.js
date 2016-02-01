@@ -149,9 +149,29 @@ var App = {
     $li.toggleClass("finished");
 
   },
+  markAllComplete: function(e) {
+    e.preventDefault();
+
+    this.Todos.models.forEach(function(model){
+      model.set("complete", true);
+    });
+
+    $(".todo").closest("li").addClass("finished");
+  },
+  removeAll: function(e) {
+    e.preventDefault();
+
+    var self = this;
+    self.Todos.models.forEach(function(model) {
+      self.Todos.remove(model);
+    });
+    self.storeLocally();
+  },
   bindEvent: function() {
     this.$add_todo.on("click", this.renderAddForm.bind(this));
     this.$main.on("submit", "#add_item", this.getTodoName.bind(this));
+    this.$main.on("click", "#mark_all_complete", this.markAllComplete.bind(this));
+    this.$main.on("click", "#remove_all", this.removeAll.bind(this));
   },
   init: function() {
     this.bindEvent();
@@ -162,15 +182,19 @@ var App = {
 
 
 App.Todo = new ModelConstructor({
-  // change: function() {
-  //   localStorage.setItem("todo_items", App.Todos.models);
-  // }
+  change: function() {
+    App.storeLocally();
+  }
 });
 
 App.TodosConstructor = new CollectionConstructor();
 
 App.Todos = new App.TodosConstructor(App.Todo);
 
+
+App.countTodo = {
+  todo_count:0
+}
 
 App.countTodo = new ModelConstructor();
 
