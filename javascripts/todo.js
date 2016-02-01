@@ -2,6 +2,7 @@ var App = {
   $main: $("main"),
   $sidebar: $("sidebar"),
   $add_todo: $("#add_todo"),
+  todo_list: [],
   todo_count: 0,
   countTodo: function() {
     var self = this,
@@ -34,16 +35,18 @@ var App = {
         model = App.Todos.get(idx);
 
     App.Todos.remove(model);
-    App.countTodo();
+    App.storeLocally();
   },
-  addTodoItem: function(e) {
-    e.preventDefault();
+  getTodoName: function(e) {
+    e.preventDefault(); 
     var name = $(e.target).find("#todo_name").val(),
         model, 
         view;
 
     if (!name) { return; }
-
+    this.addTodoItem(name);
+  },
+  addTodoItem: function(name) {
     model = this.Todos.add({
       name: name, 
       complete: false, 
@@ -53,8 +56,29 @@ var App = {
     view.$el.appendTo("#todo_items");
 
     this.removeAddTodoForm();
-    this.countTodo();
+    this.storeLocally();
+  },
+  storeLocally: function() {
+    var self = this;
 
+    self.todo_list = [];
+
+    self.Todos.models.forEach(function(model) {
+      self.todo_list.push(model.attributes.name);
+    });
+
+    localStorage.setItem("todo_items", this.todo_list);
+  },
+  renderStoredItem: function() {
+    var self = this;
+
+    if (!localStorage.getItem("todo_items")) { return; }
+
+    var names = localStorage.getItem("todo_items").split(",");
+
+    names.forEach(function(name) {
+      self.addTodoItem(name);
+    });
   },
   showModal: function(e) {
     e.preventDefault();
@@ -101,8 +125,6 @@ var App = {
       model.set(prop, temp[prop]);
     }
 
-    console.log(model)
-
     App.closeModal();
   },
   completeTask: function(e) {
@@ -129,12 +151,12 @@ var App = {
   },
   bindEvent: function() {
     this.$add_todo.on("click", this.renderAddForm.bind(this));
-    this.$main.on("submit", "#add_item", this.addTodoItem.bind(this));
+    this.$main.on("submit", "#add_item", this.getTodoName.bind(this));
   },
   init: function() {
     this.bindEvent();
     this.renderTodoCount();
-
+    this.renderStoredItem();
   }
 };
 
