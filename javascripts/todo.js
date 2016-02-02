@@ -1,27 +1,61 @@
 var App = {
   $main: $("main"),
-  $sidebar: $("sidebar"),
+  $todo_items: $("#todo_items"),
   $add_todo: $("#add_todo"),
   todo_list: [],
-  todo_count: 0,
-  countTodo: function() {
-    var self = this,
-        undone_item = this.Todos.models.filter(function(model){
-          return !model.complete;
-        });
-
-    self.todo_count = undone_item.length;
+  countTodoItems: function() {
+    this.counter.set("todo_count", App.Todos.models.length);
+    this.sortDate();
     this.renderTodoCount();
   },
-  renderTodoCount: function() {
+  sortDate: function() {
+    var self = this,
+        dates = {
+          "No Due Day": 0
+        };
+
+    self.Todos.models.forEach(function(model){
+      if (model.get("date") === undefined) {
+        dates["No Due Day"] += 1;
+      } else {
+        if (dates[model.get("date")]) {
+          dates[model.get("date")] += 1;
+        } else {
+          dates[model.get("date")] = 1;
+        }   
+      }
+    });
+
+    self.renderDate(dates);
+  },
+
+  renderDate: function(dates) {
     var self = this;
-    $(".all_todos").html(templates.all_todo_count(App))
+
+    self.counter.set("dates", []);
+
+    for (prop in dates) {
+      var obj = {
+        title: prop, 
+        count: dates[prop]
+      }
+      self.counter.get("dates").push(obj);
+    }   
+  },
+  renderTodoCount: function() {
+    var model = this.counter,
+        view = new this.counter.CountItemView(App.counter);
+
+    $("#due").html(templates.due_todo_count({dates: this.counter.get("dates")}));
+    $("ul.all_todos").html(view.$el);
+    
+    
   },
   renderAddForm: function(e) {
     e.preventDefault();
 
-    this.$add_todo.html(templates.add_todo_form);
-    this.$add_todo.off("click");
+    $("#add_todo").html(templates.add_todo_form);
+    $("#add_todo").off();
   },
   removeAddTodoForm: function() {
     this.$add_todo.html(templates.remove_todo_form);
@@ -35,6 +69,7 @@ var App = {
         model = App.Todos.get(idx);
 
     App.Todos.remove(model);
+    App.countTodoItems();
     App.storeLocally();
   },
   getTodoName: function(e) {
@@ -49,13 +84,15 @@ var App = {
   addTodoItem: function(name) {
     model = this.Todos.add({
       name: name, 
-      complete: false, 
+      complete: false,
+      date: "No Due Day"
     });
 
     view = new this.TodoView(model);
-    view.$el.appendTo("#todo_items");
+    view.$el.appendTo(this.$todo_items);
 
     this.removeAddTodoForm();
+    this.countTodoItems();
     this.storeLocally();
   },
   storeLocally: function() {
@@ -91,13 +128,15 @@ var App = {
         model = App.Todos.get(idx);
 
     $modal.css({
-      top: $(window).scrollTop() + 100
+      top: $(window).scrollTop() + 100,
+      left: $(window).scrollLeft() + 100
     });
 
     $modals.fadeIn(300);
 
     $modal.find(".complete").on("click", App.completeTask.bind(App));
-    $modal.find("form").on("submit", App.updateModel.bind(App));
+    $modal.on("submit", "form", App.updateModel.bind(App));
+    
   },
   updateModel: function(e) {
     e.preventDefault();
@@ -114,6 +153,7 @@ var App = {
 
     if (temp.due_day && temp.due_year && temp.due_day) {
       temp.date = new Date(temp.due_year, (temp.due_month - 1), temp.due_day);
+      temp.date = App.formatDate(temp.date);
       for (prop in temp) {
         if (prop.startsWith("due")) {
           delete temp[prop];
@@ -125,7 +165,13 @@ var App = {
       model.set(prop, temp[prop]);
     }
 
+    App.countTodoItems();
     App.closeModal();
+  },
+  formatDate: function(date){
+    var months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+    return date.getDate() + "/" + months[date.getMonth()] + "/" + date.getFullYear();
   },
   completeTask: function(e) {
     e.preventDefault();
@@ -166,6 +212,47 @@ var App = {
       self.Todos.remove(model);
     });
     self.storeLocally();
+    self.countTodoItems();
+  },
+  selectDueDate: function(e) {
+    e.preventDefault();
+
+    var $this = $(e.target),
+        $lis = $("#due").find("li"),
+        $li = $this.closest("li"), 
+        date = $li.attr("id");
+
+    $lis.removeClass("active");
+    $li.addClass("active");
+
+    this.filterTodoItem(date);
+  },
+  filterTodoItem: function(date) {
+
+    var self = this;
+
+    models = self.Todos.models.filter(function(model) {
+      return model.get("date") === date;
+    });
+
+    self.$main.off();
+    self.$todo_items.html('<li id="add_todo"><a href="#">Add new TODO</a></li>');
+    self.$main.on("click", $("#add_todo"), self.renderAddForm.bind(self));
+    self.bindEvent();
+
+    models.forEach(function(model){
+      self.renderFilterResult(model);
+    });
+    
+    
+  },
+  renderFilterResult: function(model) {
+    var view = new this.TodoView(model);
+    view.$el.appendTo(this.$todo_items);
+    
+  },
+  bindAsideEvent: function() {
+    $("aside").on("click", "#due li", this.selectDueDate.bind(this));
   },
   bindEvent: function() {
     this.$add_todo.on("click", this.renderAddForm.bind(this));
@@ -177,6 +264,7 @@ var App = {
     this.bindEvent();
     this.renderTodoCount();
     this.renderStoredItem();
+    this.bindAsideEvent();
   }
 };
 
@@ -191,12 +279,13 @@ App.TodosConstructor = new CollectionConstructor();
 
 App.Todos = new App.TodosConstructor(App.Todo);
 
-
-App.countTodo = {
-  todo_count:0
-}
-
 App.countTodo = new ModelConstructor();
+
+App.counter = new App.countTodo({
+  todo_count: 0, 
+  dates: []
+
+});
 
 var templates = {};
 
@@ -214,6 +303,12 @@ App.TodoView = new ViewConstructor({
     "click .delete_item": App.removeItem
   }
 });
+
+App.counter.CountItemView = new ViewConstructor({
+  tag_name: "li", 
+  template: templates.all_todo_count
+});
+
 
 
 

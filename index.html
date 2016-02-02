@@ -15,6 +15,9 @@
         <ul class="all_todos">
 
         </ul>
+        <ul id="due">
+          
+        </ul>
 
         <ul class="completed">
           <li>Completed</li>
@@ -27,7 +30,7 @@
         <a href="#" id="menu_icon"></a>
         <h1>02/15 <div class="item_count selected">5</div></h1>
         <ul id="todo_items">
-          <li id="add_todo"><a href="#">Add new TODO</a><a href=""></a></li>      
+          <li id="add_todo"><a href="#">Add new TODO</a></li>      
         </ul>
         <div id="one-click">
           <button><a href="#" id="mark_all_complete">Mark All Complete</a></button>
@@ -39,7 +42,7 @@
 
 
     <script id="todo" type="text/x-handlebars">
-      <a href="#" class="todo">{{name}}</a>
+      <a href="#" class="todo">{{name}}</a> <p> - Due: {{date}}</p>
       <a href="#" class="delete_item"></a>
         <div class="modal">
           <form action="">
@@ -55,7 +58,7 @@
                 <input type="number" id="due_year" name="due_year" placeholder="Year" value="2016">
               </dd>
               <dt><label for="description">Description</label></dt>
-              <dd><textarea name="descripion" id="description" placeholder="Description" value={{description}}></textarea></dd>
+              <dd><textarea name="description" id="description" placeholder="Description">{{description}}</textarea></dd>
               <dt></dt>
               <dd>
                 <input type="submit" value="Save">
@@ -76,15 +79,19 @@
     </script>
     
     <script id="remove_todo_form" type="text/x-handlebars">
-      <a href="#">Add new TODO</a><a href=""></a>
+      <a href="#">Add new TODO</a>
     </script>
 
     <script id="all_todo_count" type="text/x-handlebars">
+          <a href="#">All Todos
+          <div class="item_count">{{todo_count}}</div></a>
 
-        <li>
-          All Todos
-          <div class="item_count">{{todo_count}}</div>
-        </li>
+    </script>
+    <script id="due_todo_count" type="text/x-handlebars">
+
+          {{#each dates}}
+          <a href="#"><li id="{{title}}">{{title}}<div class="item_count">{{count}}</div></li></a>
+          {{/each}}
     </script>
 
     <script src="javascripts/todo.js"></script>

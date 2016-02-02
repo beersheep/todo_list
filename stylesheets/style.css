@@ -3,6 +3,8 @@
 body {
   font: normal 16px Helvetica, sans-serif;
   letter-spacing: 1px;
+  width: auto;
+
 }
 
 a {
@@ -13,26 +15,27 @@ a {
 aside {
   float: left;
   background-color: #464f77;
-  width: 335px;
   height: 800px;
-  font-weight: 200;
+  min-width: 250px;
+  
 }
 
 .container {
-  width: 1200px;
+  max-width: 1200px;
   margin: 0 auto;
+  overflow: hidden;
 }
 
 main {
-  float:right;
-  width: 865px;
+  float: right;
+  width: 65%;
   height: 800px;
 }
 
 
 
 aside ul {
-  margin: 70px 35px 70px 100px;
+  margin: 70px 35px 0px 35px;
   color: #fff;
 }
 
@@ -41,18 +44,28 @@ aside li {
   
 }
 
+ul#due {
+  margin: 0;
+}
+
 aside .all_todos {
   background: url("../images/list_icon.png") no-repeat 5px 0px;
 }
 
-aside li + li {
-  padding: 13px 0px 13px 45px;
+aside li + li, 
+#due li {
+  padding: 13px 35px 13px 45px;
   background: none;
   color: rgba(255, 255, 255, 0.5);
 }
 
 aside .completed {
   background: url("../images/complete.png") no-repeat 5px 0px;
+}
+
+#due li.active {
+  background-color: #383f5f;
+  color: #fff;
 }
 
 .completed li + li {
@@ -70,7 +83,8 @@ aside .completed {
   box-sizing: border-box;
 }
 
-.selected {
+.item_count.selected,
+li.active .item_count {
   color: #fff;
   background-color: #148fd5;
 }
@@ -110,6 +124,11 @@ main ul {
 main li + li {
   padding: 20px 0 20px 40px;
   border-top: 2px solid #f1f1f1;
+}
+
+main li p {
+  display: inline-block;
+  color: #b3b3b3;
 }
 
 .finished {
