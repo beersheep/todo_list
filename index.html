@@ -20,10 +20,7 @@
         </ul>
 
         <ul class="completed">
-          <li>Completed</li>
-          <li>2/25</li>
-          <li>3/6</li>
-          <li></li>
+          
         </ul>
       </aside>
       <main>
@@ -92,6 +89,12 @@
           {{#each dates}}
           <a href="#"><li id="{{title}}">{{title}}<div class="item_count">{{count}}</div></li></a>
           {{/each}}
+    </script>
+
+    <script id="completed_item">
+      <li>Completed</li>
+      {{#each dates}}
+      <a href="#"><li id="{{title}}">{{title}}<div class="item_count">{{count}}</div></li></a>
     </script>
 
     <script src="javascripts/todo.js"></script>

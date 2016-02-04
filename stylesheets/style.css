@@ -92,11 +92,12 @@ li.active .item_count {
 /*** main ***/
 
 #menu_icon {
+
   color: #050505;
   background: url("../images/menu_icon.png") no-repeat 0 0;
   height: 18px;
   width : 23px;
-  display: block;
+  display: none;
   margin: 20px 0 0 35px;
 } 
 
@@ -280,7 +281,55 @@ button {
   margin-left: 13px;
 }
 
+@media (max-width: 864px) {
 
+#one-click {
+  display: block;
+}
+
+#one-click button {
+  margin: 20px auto;
+  text-align: center;
+  display: block;
+}
+
+#one-click button + button {
+  margin: 20px auto;
+}
+
+}
+
+@media (max-width: 768px) {
+  a#menu_icon {
+    display: block;
+  }
+
+  aside {
+    display: none;
+    z-index: 2;
+  }
+
+  aside.show {
+    display: block;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .modal {
+    width: 100%;
+    height: 500px;
+  }
+
+  .modal dt {
+    padding-bottom: 5px;
+  }
+
+  main {
+    width: 100%;
+  }
+}
 
 
 

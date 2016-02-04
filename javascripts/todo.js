@@ -2,6 +2,7 @@ var App = {
   $main: $("main"),
   $todo_items: $("#todo_items"),
   $add_todo: $("#add_todo"),
+  $complete: $("#completed"),
   todo_list: [],
   countTodoItems: function() {
     this.counter.set("todo_count", App.Todos.models.length);
@@ -46,16 +47,15 @@ var App = {
     var model = this.counter,
         view = new this.counter.CountItemView(App.counter);
 
-    $("#due").html(templates.due_todo_count({dates: this.counter.get("dates")}));
+    $("#due").html(templates.due_todo_count({dates: model.get("dates")}));
     $("ul.all_todos").html(view.$el);
-    
     
   },
   renderAddForm: function(e) {
     e.preventDefault();
 
     $("#add_todo").html(templates.add_todo_form);
-    $("#add_todo").off();
+    $("#add_todo").off("click");
   },
   removeAddTodoForm: function() {
     this.$add_todo.html(templates.remove_todo_form);
@@ -127,15 +127,21 @@ var App = {
         idx = +$li.attr("id"),
         model = App.Todos.get(idx);
 
-    $modal.css({
-      top: $(window).scrollTop() + 100,
-      left: $(window).scrollLeft() + 100
-    });
+    if (window.innerWidth < 700) {
+      $modal.css({
+        top: $(window).scrollTop() + 100, 
+        left: $(window).scrollLeft()
+      });
+    } else {
+      $modal.css({
+        top: $(window).scrollTop() + 100,
+        left: $(window).scrollLeft() + 100
+      });
+    }
 
     $modals.fadeIn(300);
 
     $modal.find(".complete").on("click", App.completeTask.bind(App));
-    $modal.on("submit", "form", App.updateModel.bind(App));
     
   },
   updateModel: function(e) {
@@ -224,25 +230,36 @@ var App = {
 
     $lis.removeClass("active");
     $li.addClass("active");
+    $("aside").removeClass("show");
 
     this.filterTodoItem(date);
   },
-  filterTodoItem: function(date) {
+  filterTodoItem: function(date, complete) {
 
     var self = this;
 
-    models = self.Todos.models.filter(function(model) {
-      return model.get("date") === date;
-    });
+    if (!complete) {
+      models = self.Todos.models.filter(function(model) {
+        return model.get("date") === date;
+      }); 
+    }
 
-    self.$main.off();
+    if (complete) {
+       models = self.Todos.models.filter(function(model) {
+        return model.get("date") === date && model.get("complete") === true;
+      });
+    }
+
     self.$todo_items.html('<li id="add_todo"><a href="#">Add new TODO</a></li>');
-    self.$main.on("click", $("#add_todo"), self.renderAddForm.bind(self));
-    self.bindEvent();
+      self.$todo_items.on("click", self.$add_todo, self.renderAddForm.bind(self));
 
-    models.forEach(function(model){
-      self.renderFilterResult(model);
-    });
+      models.forEach(function(model){
+        self.renderFilterResult(model);
+      });
+
+    
+
+    
     
     
   },
@@ -250,6 +267,11 @@ var App = {
     var view = new this.TodoView(model);
     view.$el.appendTo(this.$todo_items);
     
+  },
+  showSidebar: function(e) {
+    e.preventDefault();
+    
+    $("aside").toggleClass("show", true);
   },
   bindAsideEvent: function() {
     $("aside").on("click", "#due li", this.selectDueDate.bind(this));
@@ -259,6 +281,7 @@ var App = {
     this.$main.on("submit", "#add_item", this.getTodoName.bind(this));
     this.$main.on("click", "#mark_all_complete", this.markAllComplete.bind(this));
     this.$main.on("click", "#remove_all", this.removeAll.bind(this));
+    this.$main.on("click", "a#menu_icon", this.showSidebar.bind(this));
   },
   init: function() {
     this.bindEvent();
@@ -300,7 +323,8 @@ App.TodoView = new ViewConstructor({
   template: templates.todo,
   events: {
     "click .todo": App.showModal,
-    "click .delete_item": App.removeItem
+    "click .delete_item": App.removeItem,
+    "submit .modal form": App.updateModel.bind(App)
   }
 });
 
