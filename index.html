@@ -15,9 +15,6 @@
         <ul class="all_todos">
 
         </ul>
-        <ul id="due">
-          
-        </ul>
 
         <ul class="completed">
           
@@ -25,7 +22,7 @@
       </aside>
       <main>
         <a href="#" id="menu_icon"></a>
-        <h1>02/15 <div class="item_count selected">5</div></h1>
+        <div id="list_title"></div>
         <ul id="todo_items">
           <li id="add_todo"><a href="#">Add new TODO</a></li>      
         </ul>
@@ -79,24 +76,21 @@
       <a href="#">Add new TODO</a>
     </script>
 
-    <script id="all_todo_count" type="text/x-handlebars">
-          <a href="#">All Todos
-          <div class="item_count">{{todo_count}}</div></a>
-
+    <script id="list_title" type="text/x-handlebars">
+      <h1>{{date}}<div class="item_count selected">{{count}}</div></h1>
     </script>
-    <script id="due_todo_count" type="text/x-handlebars">
 
-          {{#each dates}}
-          <a href="#"><li id="{{title}}">{{title}}<div class="item_count">{{count}}</div></li></a>
-          {{/each}}
+    <script id="due_todo_count" type="text/x-handlebars">
+          <a href="#" class="count_list">{{name}}</a>
+          <div class="item_count {{count}}">{{count}}</div>
     </script>
 
     <script id="completed_item">
-      <li>Completed</li>
-      {{#each dates}}
-      <a href="#"><li id="{{title}}">{{title}}<div class="item_count">{{count}}</div></li></a>
+      // <li>Completed</li>
+      // {{#each dates}}
+      // <a href="#"><li id="{{title}}">{{title}}<div class="item_count">{{count}}</div></li></a>
     </script>
 
     <script src="javascripts/todo.js"></script>
  </body>
- </html> 
+ </html>  
